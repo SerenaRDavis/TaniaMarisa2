@@ -6,7 +6,7 @@
 <title>The Reading Table of Tania Marisa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="image-slot.js"></script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,6 +21,18 @@
     --wax: #5C2A4A;
     --gold: #B8935A;
     --gold-soft: #D6BC8B;
+    --quartz-l: #FAF7EF;
+    --quartz-d: #CFC3A9;
+    --amethyst-l: #B79BD6;
+    --amethyst-d: #5A3B85;
+    --rose-l: #F2D6DE;
+    --rose-d: #C98CA0;
+    --citrine-l: #E9CB7C;
+    --citrine-d: #A9793D;
+    --aqua-l: #C6E6E2;
+    --aqua-d: #5F9C97;
+    --smoky-l: #9483A0;
+    --smoky-d: #2E1A3E;
   }
   html { scroll-behavior: smooth; }
   body {
@@ -42,39 +54,63 @@
   /* ── scene ── */
   .table { position: relative; min-height: 100vh; z-index: 1; }
   .table-head { text-align: center; padding: 2.25rem 1.5rem 0; position: relative; z-index: 2; }
-  .table-head h1 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--ink); }
-  .table-head p { font-size: 0.8rem; font-weight: 300; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.4rem; }
+  .table-head h1 { font-family: 'Cormorant Garamond', serif; font-style: normal; font-weight: 700; text-transform: capitalize; letter-spacing: 0.01em; font-size: clamp(2.6rem, 7vw, 4.4rem); color: var(--ink); }
+  .table-head .tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--ink-soft); margin-top: 0.6rem; }
+  .table-head p { font-size: 0.8rem; font-weight: 300; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.6rem; }
 
   .scene { position: relative; height: calc(100vh - 7.5rem); min-height: 640px; }
 
   .obj { position: absolute; cursor: pointer; border: none; background: none; font: inherit; color: inherit; text-align: center; transition: transform 0.35s ease, filter 0.35s ease; z-index: 1; }
   .obj:hover, .obj:focus-visible { z-index: 5; }
   .obj .label { display: block; margin-top: 0.7rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--ink-soft); letter-spacing: 0.03em; }
-  .envelope, .deck, .polaroid, .polaroid .ph, .bundle, .replycard, .notecard, .pamphlet { display: block; }
-  .replycard .line { display: block; }
+  .polaroid, .polaroid .ph { display: block; }
   .obj:hover .label { color: var(--ink); }
 
-  /* envelope */
-  .o-letter { left: 50%; top: 40%; transform: translate(-50%, -50%) rotate(-2.5deg); }
+  /* ── gem photo system ── shared by every table selection (real cutout PNGs, transparent bg) */
+  .gem-photo { display: block; }
+  .gem-photo img {
+    display: block; height: auto;
+    filter: saturate(1.02) contrast(1.04) drop-shadow(0 16px 14px rgba(60,35,20,0.4));
+  }
+  .gem-cap { display: block; margin-top: 0.6rem; }
+  .gem-cap .t { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.02rem; color: var(--ink); line-height: 1.3; }
+  .gem-cap .s { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.25rem; }
+  .mini-seal { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 36% 32%, #7A4364, var(--wax) 58%, #3E1A34 100%); box-shadow: inset 0 1px 3px rgba(255,255,255,0.28), inset 0 -2px 4px rgba(0,0,0,0.35), 0 2px 5px rgba(60,35,20,0.3); display: flex; align-items: center; justify-content: center; }
+  .mini-seal span { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.72rem; color: var(--gold-soft); }
+
+  /* letter — clear quartz point */
+  .o-letter { left: 50%; top: 38%; transform: translate(-50%, -50%) rotate(-2.5deg); }
   .o-letter:hover { transform: translate(-50%, -52%) rotate(-2.5deg); filter: drop-shadow(0 18px 22px rgba(60,35,20,0.22)); }
-  .envelope { position: relative; width: 300px; height: 196px; background: linear-gradient(170deg, #FDFAF2, #F3ECDD); box-shadow: 0 10px 24px rgba(60,35,20,0.22), 0 2px 5px rgba(60,35,20,0.14); }
-  .envelope::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom right, transparent 49.6%, rgba(46,26,62,0.09) 50%, transparent 50.4%), linear-gradient(to bottom left, transparent 49.6%, rgba(46,26,62,0.09) 50%, transparent 50.4%); }
-  .envelope .flap { position: absolute; top: 0; left: 0; right: 0; height: 0; border-left: 150px solid transparent; border-right: 150px solid transparent; border-top: 104px solid #EFE6D3; filter: drop-shadow(0 2px 2px rgba(60,35,20,0.12)); }
-  .envelope .addr { position: absolute; left: 0; right: 0; bottom: 20px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.98rem; color: var(--ink); line-height: 1.4; }
-  .seal { position: absolute; left: 50%; top: 72px; transform: translateX(-50%); width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle at 36% 32%, #7A4364, var(--wax) 58%, #3E1A34 100%); box-shadow: inset 0 2px 5px rgba(255,255,255,0.28), inset 0 -3px 6px rgba(0,0,0,0.35), 0 3px 7px rgba(60,35,20,0.3); display: flex; align-items: center; justify-content: center; }
-  .seal span { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.15rem; color: var(--gold-soft); }
+  .o-letter .gem-photo { position: relative; }
+  .o-letter .gem-photo img { width: 128px; }
+  .o-letter .mini-seal { left: 6px; bottom: -4px; }
 
-  /* deck of cards */
-  .o-deck { left: 71%; top: 24%; transform: rotate(7deg); }
+  /* the sessions — amethyst cluster */
+  .o-deck { left: 65%; top: 18%; transform: rotate(7deg); }
   .o-deck:hover { transform: rotate(7deg) translateY(-8px); }
-  .deck { position: relative; width: 128px; height: 190px; }
-  .card-back { position: absolute; inset: 0; border-radius: 9px; background: linear-gradient(150deg, var(--plum), var(--plum-deep)); box-shadow: 0 8px 18px rgba(60,35,20,0.3); }
-  .card-back::before { content: ''; position: absolute; inset: 9px; border: 1px solid rgba(200,160,100,0.55); border-radius: 5px; }
-  .card-back::after { content: '✦'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--gold-soft); font-size: 1.5rem; }
-  .deck .card-back:nth-child(1) { transform: rotate(-7deg) translate(-7px, 4px); }
-  .deck .card-back:nth-child(2) { transform: rotate(3deg) translate(3px, -2px); }
+  .o-deck .gem-photo img { width: 118px; }
 
-  /* polaroid */
+  /* client notes — rose quartz */
+  .o-notes { left: 62%; top: 70%; transform: rotate(-4deg); }
+  .o-notes:hover { transform: rotate(-4deg) translateY(-8px); }
+  .o-notes .gem-photo img { width: 108px; }
+
+  /* questions — citrine */
+  .o-faq { left: 12%; top: 60%; transform: rotate(4.5deg); }
+  .o-faq:hover { transform: rotate(4.5deg) translateY(-8px); }
+  .o-faq .gem-photo img { width: 138px; }
+
+  /* write to me — blue crystal */
+  .o-reply { left: 44%; top: 68%; transform: rotate(1.5deg); }
+  .o-reply:hover { transform: rotate(1.5deg) translateY(-8px); }
+  .o-reply .gem-photo img { width: 128px; }
+
+  /* the guide — smoky quartz */
+  .o-guide { left: 84%; top: 28%; transform: rotate(-8deg); }
+  .o-guide:hover { transform: rotate(-8deg) translateY(-8px); }
+  .o-guide .gem-photo img { width: 128px; }
+
+  /* photo */
   .o-photo { left: 13%; top: 14%; transform: rotate(-6deg); }
   .o-photo:hover { transform: rotate(-6deg) translateY(-8px); }
   .polaroid { width: 224px; background: #FDFCF8; padding: 10px 10px 40px; box-shadow: 0 8px 20px rgba(60,35,20,0.24); position: relative; }
@@ -85,42 +121,10 @@
   image-slot[data-filled] ~ .photo-note { display: none; }
   .polaroid .cap { position: absolute; bottom: 9px; left: 0; right: 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--ink-soft); }
 
-  /* notes bundle (testimonials) */
-  .o-notes { left: 70%; top: 64%; transform: rotate(-4deg); }
-  .o-notes:hover { transform: rotate(-4deg) translateY(-8px); }
-  .bundle { position: relative; width: 190px; height: 130px; }
-  .bundle .sheet { position: absolute; inset: 0; background: var(--paper); box-shadow: 0 6px 14px rgba(60,35,20,0.2); }
-  .bundle .sheet:nth-child(1) { transform: rotate(-5deg); }
-  .bundle .sheet:nth-child(2) { transform: rotate(3deg); background: #F7F1E2; }
-  .bundle .sheet:nth-child(3) { display: flex; align-items: center; justify-content: center; padding: 1rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.98rem; color: var(--ink-soft); line-height: 1.45; }
-  .bundle .string { position: absolute; left: -6px; right: -6px; top: 52%; height: 2px; background: var(--gold); opacity: 0.8; transform: rotate(-1.5deg); }
-  .bundle .knot { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%); width: 11px; height: 11px; border-radius: 50%; background: var(--gold); }
-
-  /* faq note */
-  .o-faq { left: 12%; top: 60%; transform: rotate(4.5deg); }
-  .o-faq:hover { transform: rotate(4.5deg) translateY(-8px); }
-  .notecard { width: 200px; height: 138px; background: var(--paper); box-shadow: 0 6px 14px rgba(60,35,20,0.2); display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 1rem; }
-  .notecard .t { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.12rem; color: var(--ink); line-height: 1.35; }
-  .notecard .s { display: block; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
-
-  /* reply card (waitlist) */
-  .o-reply { left: 44%; top: 68%; transform: rotate(1.5deg); }
-  .o-reply:hover { transform: rotate(1.5deg) translateY(-8px); }
-  .replycard { width: 250px; height: 148px; background: var(--paper); box-shadow: 0 7px 16px rgba(60,35,20,0.22); padding: 1.1rem 1.2rem; text-align: left; position: relative; }
-  .replycard .t { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.15rem; color: var(--ink); margin-bottom: 0.7rem; }
-  .replycard .line { height: 1px; background: rgba(46,26,62,0.28); margin-bottom: 1.1rem; }
-  .replycard .nib { position: absolute; right: -30px; bottom: 16px; width: 88px; height: 7px; background: linear-gradient(90deg, var(--plum-deep), var(--plum) 70%, var(--gold) 70.5%, var(--gold-soft)); border-radius: 4px; transform: rotate(-24deg); box-shadow: 0 4px 8px rgba(60,35,20,0.25); }
-
-  /* guide pamphlet */
-  .o-guide { left: 84%; top: 34%; transform: rotate(-8deg); }
-  .o-guide:hover { transform: rotate(-8deg) translateY(-8px); }
-  .pamphlet { width: 158px; height: 208px; background: linear-gradient(170deg, #F6EFE0, #EDE3CE); box-shadow: -5px 0 0 rgba(46,26,62,0.16) inset, 0 7px 16px rgba(60,35,20,0.22); padding: 1.3rem 1rem 1rem 1.4rem; display: flex !important; flex-direction: column; justify-content: space-between; text-align: left; }
-  .pamphlet .t { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; line-height: 1.3; color: var(--ink); }
-  .pamphlet .s { display: block; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
-
   /* ambient */
   .lavender { position: absolute; left: 32%; top: 12%; transform: rotate(24deg); pointer-events: none; opacity: 0.9; }
   .ring-stain { position: absolute; left: 60%; top: 68%; width: 92px; height: 92px; border-radius: 50%; border: 7px solid rgba(140,105,60,0.09); pointer-events: none; }
+  .loose-gem { position: absolute; left: 47%; top: 20%; width: 30px; height: auto; transform: rotate(-8deg); pointer-events: none; opacity: 0.75; filter: drop-shadow(0 3px 5px rgba(60,35,20,0.25)); }
 
   .table-index { text-align: center; padding: 0 1.5rem 2rem; position: relative; z-index: 2; }
   .table-index p { font-size: 0.82rem; font-weight: 300; color: var(--ink-soft); letter-spacing: 0.04em; }
@@ -215,7 +219,8 @@
 
 <div class="table" id="root">
   <div class="table-head">
-    <h1>The reading table of Tania Marisa</h1>
+    <h1>Tania Marisa</h1>
+    <p class="tagline">Depth you can feel. Shifts that last.</p>
     <p>Everything here is for you · touch what calls you</p>
   </div>
 
@@ -229,6 +234,7 @@
       </g>
     </svg>
     <div class="ring-stain" aria-hidden="true"></div>
+    <img class="loose-gem" src="crystals/amethyst_cutout.png" alt="" aria-hidden="true">
 
     <button class="obj o-photo" onclick="zoomPhoto(this)" aria-label="A photograph of Tania">
       <span class="polaroid">
@@ -241,34 +247,34 @@
     </button>
 
     <button class="obj o-letter" onclick="openPanel('p-letter')" aria-label="Open her letter">
-      <span class="envelope">
-        <span class="flap"></span>
-        <span class="seal"><span>T</span></span>
-        <span class="addr">For you, if someone gave you my name</span>
+      <span class="gem-photo">
+        <img src="crystals/quartz_cutout.png" alt="A clear quartz crystal point">
+        <span class="mini-seal"><span>T</span></span>
       </span>
+      <span class="gem-cap"><span class="t">For you, if someone gave you my name</span></span>
       <span class="label">a letter for you · begin here</span>
     </button>
 
     <button class="obj o-deck" onclick="openPanel('p-cards')" aria-label="See the sessions">
-      <span class="deck">
-        <span class="card-back"></span>
-        <span class="card-back"></span>
+      <span class="gem-photo">
+        <img src="crystals/amethyst_cutout.png" alt="An amethyst crystal cluster">
       </span>
       <span class="label">the sessions</span>
     </button>
 
     <button class="obj o-notes" onclick="openPanel('p-notes')" aria-label="Read notes from clients">
-      <span class="bundle">
-        <span class="sheet"></span>
-        <span class="sheet"></span>
-        <span class="sheet">"she said the thing I'd been circling for years..."</span>
-        <span class="string"></span><span class="knot"></span>
+      <span class="gem-photo">
+        <img src="crystals/rosequartz_cutout.png" alt="Rose quartz crystals">
       </span>
+      <span class="gem-cap"><span class="t">"she said the thing I'd been circling for years..."</span></span>
       <span class="label">notes from my clients</span>
     </button>
 
     <button class="obj o-faq" onclick="openPanel('p-faq')" aria-label="Questions people ask">
-      <span class="notecard">
+      <span class="gem-photo">
+        <img src="crystals/citrine_cutout.png" alt="A citrine crystal point">
+      </span>
+      <span class="gem-cap">
         <span class="t">Things people wonder before they write</span>
         <span class="s">five honest answers</span>
       </span>
@@ -276,18 +282,18 @@
     </button>
 
     <button class="obj o-reply" onclick="openPanel('p-reply')" aria-label="Write to Tania">
-      <span class="replycard">
-        <span class="t">Write to me</span>
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line" style="width: 60%;"></span>
-        <span class="nib"></span>
+      <span class="gem-photo">
+        <img src="crystals/blue_cutout.png" alt="A blue crystal stone">
       </span>
+      <span class="gem-cap"><span class="t">Write to me</span></span>
       <span class="label">your reply card</span>
     </button>
 
     <button class="obj o-guide" onclick="openPanel('p-guide')" aria-label="The free guide">
-      <span class="pamphlet">
+      <span class="gem-photo">
+        <img src="crystals/smoky_cutout.png" alt="A smoky quartz crystal">
+      </span>
+      <span class="gem-cap">
         <span class="t">Is It Intuition or Anxiety?</span>
         <span class="s">a small free guide</span>
       </span>
